@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Zishann Jhumar</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">ZISHANN JHUMAR</a>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="collection.html">Collection</a>
+                <a href="about.html" class="active">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="section" style="padding-top: 120px; background: #080808; min-height: 80vh;">
+        <div class="container" style="max-width: 800px; text-align: center;">
+            <h1 class="section-title">Our Story</h1>
+
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 30px;">
+                At <strong>Zishann Jhumar Collection</strong>, we believe that lighting is not just about
+                functionality—it's an art form. Established in 2020, we have dedicated ourselves to curating the finest
+                selection of luxury chandeliers, jhumars, and pendant lights.
+            </p>
+
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #ccc; margin-bottom: 40px;">
+                Our pieces are sourced from the best artisans, ensuring that every crystal shines with brilliance and
+                every metal frame stands the test of time. Whether you are designing a modern penthouse or a classic
+                villa, our collection offers something truly spectacular for every taste.
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 60px;">
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--gold);">500+</h2>
+                    <p>Happy Customers</p>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--gold);">100+</h2>
+                    <p>Unique Designs</p>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--gold);">5yr</h2>
+                    <p>Excellence</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 80px;">
+                <h3 style="margin-bottom: 20px;">Visit Our Showroom</h3>
+                <p>Experience the grandeur in person. Our showroom is open 7 days a week.</p>
+                <a href="contact.html" class="btn btn-outline" style="margin-top: 20px;">Get Directions</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2026 Zishann Jhumar Collection.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-btn" onclick="toggleChat()" title="Chat with Consultant">
+            <img src="assets/images/p1.jpeg" alt="Jhumar Chat Assistant">
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/chat.js"></script>
+    <script>
+        function toggleChat() { ChatAssistant.toggle(); }
+
+        // Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+
+</html>

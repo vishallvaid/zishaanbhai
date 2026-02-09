@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Zishann Jhumar</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">ZISHANN JHUMAR</a>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="collection.html">Collection</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Form -->
+    <section class="section" style="padding-top: 120px; background: #080808; min-height: 80vh;">
+        <div class="container" style="max-width: 800px;">
+            <h1 class="section-title">Checkout</h1>
+            <div class="checkout-container" style="display: flex; gap: 40px; flex-wrap: wrap;">
+
+                <div class="billing-details" style="flex: 1; min-width: 300px;">
+                    <h3 style="color: var(--gold); margin-bottom: 20px;">Billing Details</h3>
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Shipping Address</label>
+                            <textarea id="address" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">Zip Code</label>
+                            <input type="text" id="zip" required>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="order-summary"
+                    style="flex: 1; min-width: 300px; background: #111; padding: 30px; border: 1px solid #333;">
+                    <h3 style="color: var(--gold); margin-bottom: 20px;">Your Order</h3>
+                    <div id="order-items"
+                        style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 20px;">
+                        <!-- Items injected here -->
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 30px;">
+                        <span>Total:</span>
+                        <span style="color: var(--gold);" id="order-total">₹0</span>
+                    </div>
+
+                    <h4 style="margin-bottom: 15px;">Payment Method</h4>
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="radio" name="payment" value="cod" checked> Cash on Delivery
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 10px;">
+                            <input type="radio" name="payment" value="upi"> UPI / Online Payment
+                        </label>
+                    </div>
+
+                    <button type="button" onclick="placeOrder()" class="btn" style="width: 100%;">Place Order</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2026 Zishann Jhumar Collection.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-btn" onclick="toggleChat()" title="Chat with Consultant">
+            <img src="assets/images/p1.jpeg" alt="Jhumar Chat Assistant">
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/chat.js"></script>
+    <script>
+        function toggleChat() { ChatAssistant.toggle(); }
+
+        const orderItemsContainer = document.getElementById('order-items');
+
+        const orderTotalElement = document.getElementById('order-total');
+
+        function renderOrderSummary() {
+            const items = Cart.getItems();
+            let total = 0;
+
+            if (items.length === 0) {
+                window.location.href = 'cart.html';
+                return;
+            }
+
+            let html = '';
+            items.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                html += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #ccc;">
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>₹${itemTotal.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+
+            orderItemsContainer.innerHTML = html;
+            orderTotalElement.textContent = `₹${total.toLocaleString()}`;
+        }
+
+        function placeOrder() {
+            const form = document.getElementById('checkout-form');
+            if (form.checkValidity()) {
+                alert('Thank you! Your order has been placed successfully. We will contact you shortly.');
+                Cart.clearCart();
+                window.location.href = 'index.html';
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        renderOrderSummary();
+
+        // Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+
+</html>

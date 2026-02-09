@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Zishann Jhumar</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html">ZISHANN JHUMAR</a>
+            </div>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="collection.html">Collection</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="nav-icons">
+                <div class="cart-icon" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-bag" style="color: var(--gold); font-size: 20px;"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Items -->
+    <section class="section" style="padding-top: 120px; background: #080808; min-height: 80vh;">
+        <div class="container">
+            <h1 class="section-title">Your Cart</h1>
+            <div id="cart-content">
+                <!-- Cart items or empty message -->
+            </div>
+            <div id="cart-summary"
+                style="display: none; margin-top: 40px; text-align: right; border-top: 1px solid #333; padding-top: 20px;">
+                <h3 style="color: var(--white); margin-bottom: 20px;">Subtotal: <span id="cart-total"
+                        style="color: var(--gold);">₹0</span></h3>
+                <a href="checkout.html" class="btn">Proceed to Checkout</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2026 Zishann Jhumar Collection.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-btn" onclick="toggleChat()" title="Chat with Consultant">
+            <img src="assets/images/p1.jpeg" alt="Jhumar Chat Assistant">
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/chat.js"></script>
+    <script>
+        function toggleChat() { ChatAssistant.toggle(); }
+
+        const cartContent = document.getElementById('cart-content');
+
+        const cartSummary = document.getElementById('cart-summary');
+        const cartTotal = document.getElementById('cart-total');
+
+        function renderCart() {
+            const items = Cart.getItems();
+
+            if (items.length === 0) {
+                cartContent.innerHTML = `<p style="text-align: center; color: #ccc;">Your cart is currently empty. <a href="collection.html" style="color: var(--gold); text-decoration: underline;">Continue Shopping</a></p>`;
+                cartSummary.style.display = 'none';
+                return;
+            }
+
+            let html = `
+                <table class="cart-table" style="width: 100%; text-align: left; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #333;">
+                            <th style="padding: 10px;">Product</th>
+                            <th style="padding: 10px;">Price</th>
+                            <th style="padding: 10px;">Quantity</th>
+                            <th style="padding: 10px;">Total</th>
+                            <th style="padding: 10px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            items.forEach(item => {
+                html += `
+                    <tr>
+                        <td style="padding: 15px; display: flex; align-items: center; gap: 15px;">
+                            <img src="${item.image}" alt="${item.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                            <span style="color: #fff; font-weight: 500;">${item.name}</span>
+                        </td>
+                        <td style="padding: 15px; color: #ccc;">₹${item.price.toLocaleString()}</td>
+                        <td style="padding: 15px;">
+                            <input type="number" value="${item.quantity}" min="1" 
+                                style="width: 60px; padding: 5px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;"
+                                onchange="updateQty(${item.id}, this.value)">
+                        </td>
+                        <td style="padding: 15px; color: var(--gold);">₹${(item.price * item.quantity).toLocaleString()}</td>
+                        <td style="padding: 15px;">
+                            <button onclick="removeItem(${item.id})" style="background: none; border: none; color: #ff4444; cursor: pointer;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            cartContent.innerHTML = html;
+            cartSummary.style.display = 'block';
+            cartTotal.textContent = `₹${Cart.getTotal().toLocaleString()}`;
+        }
+
+        function updateQty(id, qty) {
+            Cart.updateQuantity(id, qty);
+            renderCart();
+        }
+
+        function removeItem(id) {
+            if (confirm('Are you sure you want to remove this item?')) {
+                Cart.removeItem(id);
+                renderCart();
+            }
+        }
+
+        // Initial render
+        renderCart();
+
+        // Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+
+</html>
